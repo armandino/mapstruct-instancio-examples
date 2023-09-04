@@ -5,12 +5,13 @@
  */
 package org.mapstruct.jpa;
 
-import java.util.Arrays;
 import org.junit.Test;
+
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- *
  * @author Sjaak Derksen
  */
 public class SourceTargetMapperTest {
@@ -26,26 +27,26 @@ public class SourceTargetMapperTest {
 
         // prepare dto's
         ParentDto parent = new ParentDto();
-        parent.setName( "jim" );
+        parent.setName("jim");
         ChildDto childDto1 = new ChildDto();
-        childDto1.setName( "jack" );
+        childDto1.setName("jack");
         ChildDto childDto2 = new ChildDto();
-        childDto2.setName( "jill" );
-        parent.setChildren( Arrays.asList( childDto1, childDto2 ) );
+        childDto2.setName("jill");
+        parent.setChildren(Arrays.asList(childDto1, childDto2));
 
         // context
-        JpaContext jpaCtx = new JpaContext( null );
+        JpaContext jpaCtx = new JpaContext(null);
 
-        ParentEntity parentEntity = SourceTargetMapper.MAPPER.toEntity( parent, jpaCtx );
+        ParentEntity parentEntity = SourceTargetMapper.MAPPER.toEntity(parent, jpaCtx);
 
         //results
-        assertThat( parentEntity ).isNotNull();
-        assertThat( parentEntity.getName() ).isEqualTo( "jim" );
-        assertThat( parentEntity.getChildren() ).hasSize( 2 );
-        assertThat( parentEntity.getChildren().get( 0 ).getName() ).isEqualTo( "jack" );
-        assertThat( parentEntity.getChildren().get( 0 ).getMyParent() ).isEqualTo( parentEntity );
-        assertThat( parentEntity.getChildren().get( 1 ).getName() ).isEqualTo( "jill" );
-        assertThat( parentEntity.getChildren().get( 1 ).getMyParent() ).isEqualTo( parentEntity );
+        assertThat(parentEntity).isNotNull();
+        assertThat(parentEntity.getName()).isEqualTo("jim");
+        assertThat(parentEntity.getChildren()).hasSize(2);
+        assertThat(parentEntity.getChildren().get(0).getName()).isEqualTo("jack");
+        assertThat(parentEntity.getChildren().get(0).getMyParent()).isEqualTo(parentEntity);
+        assertThat(parentEntity.getChildren().get(1).getName()).isEqualTo("jill");
+        assertThat(parentEntity.getChildren().get(1).getMyParent()).isEqualTo(parentEntity);
     }
 
 }

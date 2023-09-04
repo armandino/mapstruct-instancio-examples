@@ -5,13 +5,13 @@
  */
 package org.mapstruct.jpa;
 
-import javax.persistence.EntityManager;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.MappingTarget;
 
+import javax.persistence.EntityManager;
+
 /**
- *
  * @author Sjaak Derksen
  */
 public class JpaContext {
@@ -26,13 +26,13 @@ public class JpaContext {
 
     @BeforeMapping
     public void setEntity(@MappingTarget ParentEntity parentEntity) {
-       this.parentEntity = parentEntity;
-       // you could do stuff with the EntityManager here
+        this.parentEntity = parentEntity;
+        // you could do stuff with the EntityManager here
     }
 
     @AfterMapping
     public void establishRelation(@MappingTarget ChildEntity childEntity) {
-        childEntity.setMyParent( parentEntity );
+        childEntity.setMyParent(parentEntity);
         // you could do stuff with the EntityManager here
     }
 

@@ -8,13 +8,12 @@ package org.mapstruct.jpa;
 import java.util.List;
 
 /**
- *
  * @author Sjaak Derksen
  */
 public class ParentDto {
 
-   private String name;
-   private List<ChildDto> children;
+    private String name;
+    private List<ChildDto> children;
 
     public String getName() {
         return name;

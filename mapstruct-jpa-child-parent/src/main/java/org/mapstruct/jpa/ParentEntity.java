@@ -8,7 +8,6 @@ package org.mapstruct.jpa;
 import java.util.List;
 
 /**
- *
  * @author Sjaak Derksen
  */
 public class ParentEntity {

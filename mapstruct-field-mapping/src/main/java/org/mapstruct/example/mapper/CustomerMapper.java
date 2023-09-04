@@ -15,10 +15,10 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author Filip Hrisafov
  */
-@Mapper(uses = { OrderItemMapper.class })
+@Mapper(uses = {OrderItemMapper.class})
 public interface CustomerMapper {
 
-    CustomerMapper MAPPER = Mappers.getMapper( CustomerMapper.class );
+    CustomerMapper MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     @Mapping(source = "orders", target = "orderItems")
     @Mapping(source = "customerName", target = "name")

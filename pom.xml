@@ -16,54 +16,9 @@
 
     <modules>
         <module>mapstruct-field-mapping</module>
-        <module>mapstruct-iterable-to-non-iterable</module>
-        <module>mapstruct-lombok</module>
-        <module>mapstruct-mapping-from-map</module>
-        <module>mapstruct-mapping-with-cycles</module>
         <module>mapstruct-nested-bean-mappings</module>
-        <module>mapstruct-rounding</module>
-        <module>mapstruct-spi-accessor-naming</module>
-        <module>mapstruct-protobuf3</module>
-        <module>mapstruct-updatemethods-1</module>
         <module>mapstruct-jpa-child-parent</module>
-        <module>mapstruct-lookup-entity-with-id</module>
-        <module>mapstruct-metadata-with-annotations</module>
-        <module>mapstruct-suppress-unmapped</module>
         <module>mapstruct-clone</module>
-        <module>mapstruct-mapper-repo</module>
     </modules>
 
-    <profiles>
-        <profile>
-            <id>java14+</id>
-            <activation>
-                <jdk>[14,)</jdk>
-            </activation>
-            <modules>
-                <module>mapstruct-record</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>java14-</id>
-            <activation>
-                <jdk>(,14)</jdk>
-            </activation>
-            <modules>
-                <module>mapstruct-quarkus</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>java16-</id>
-            <activation>
-                <jdk>(,16)</jdk>
-            </activation>
-            <modules>
-                <!--
-                    Kotlin kapt currently has problems on Java 16+.
-                    See https://youtrack.jetbrains.com/issue/KT-45545
-                 -->
-                <module>mapstruct-kotlin</module>
-            </modules>
-        </profile>
-    </profiles>
 </project>

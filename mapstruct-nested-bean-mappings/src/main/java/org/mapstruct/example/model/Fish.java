@@ -6,7 +6,6 @@
 package org.mapstruct.example.model;
 
 /**
- *
  * @author Sjaak Derksen
  */
 public class Fish {

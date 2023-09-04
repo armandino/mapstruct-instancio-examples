@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SourceTargetMapper {
 
-    SourceTargetMapper MAPPER = Mappers.getMapper( SourceTargetMapper.class );
+    SourceTargetMapper MAPPER = Mappers.getMapper(SourceTargetMapper.class);
 
     ParentEntity toEntity(ParentDto s, @Context JpaContext ctx);
 

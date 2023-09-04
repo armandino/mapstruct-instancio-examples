@@ -6,7 +6,6 @@
 package org.mapstruct.jpa;
 
 /**
- *
  * @author Sjaak Derksen
  */
 public class ChildDto {

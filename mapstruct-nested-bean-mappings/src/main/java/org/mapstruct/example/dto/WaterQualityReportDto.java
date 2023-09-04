@@ -6,7 +6,6 @@
 package org.mapstruct.example.dto;
 
 /**
- *
  * @author Sjaak Derksen
  */
 public class WaterQualityReportDto {
