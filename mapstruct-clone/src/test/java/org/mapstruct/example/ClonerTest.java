@@ -5,62 +5,33 @@
  */
 package org.mapstruct.example;
 
-import org.junit.Test;
+import org.instancio.Instancio;
+import org.instancio.junit.InstancioExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.example.dto.CustomerDto;
-import org.mapstruct.example.dto.OrderItemDto;
-import org.mapstruct.example.dto.OrderItemKeyDto;
 import org.mapstruct.example.mapper.Cloner;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * @author Sjaak Derksen
  */
-public class ClonerTest {
+@ExtendWith(InstancioExtension.class)
+class ClonerTest {
 
     @Test
-    public void testMapDtoToEntity() {
+    void cloneDto() {
+        // Given
+        CustomerDto customer = Instancio.create(CustomerDto.class);
 
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setId(10L);
-        customerDto.setCustomerName("Jaques");
-        OrderItemDto order1 = new OrderItemDto();
-        order1.setName("Table");
-        order1.setQuantity(2L);
-        customerDto.setOrders(new ArrayList<>(Collections.singleton(order1)));
-        OrderItemKeyDto key = new OrderItemKeyDto();
-        key.setStockNumber(5);
-        Map stock = new HashMap();
-        stock.put(key, order1);
-        customerDto.setStock(stock);
+        // When
+        CustomerDto clone = Cloner.MAPPER.clone(customer);
 
-        CustomerDto customer = Cloner.MAPPER.clone(customerDto);
-
-        // check if cloned
-        assertThat(customer.getId()).isEqualTo(10);
-        assertThat(customer.getCustomerName()).isEqualTo("Jaques");
-        assertThat(customer.getOrders())
-                .extracting("name", "quantity")
-                .containsExactly(tuple("Table", 2L));
-        assertThat(customer.getStock()).isNotNull();
-        assertThat(customer.getStock()).hasSize(1);
-
-        Map.Entry<OrderItemKeyDto, OrderItemDto> entry = customer.getStock().entrySet().iterator().next();
-        assertThat(entry.getKey().getStockNumber()).isEqualTo(5);
-        assertThat(entry.getValue().getName()).isEqualTo("Table");
-        assertThat(entry.getValue().getQuantity()).isEqualTo(2L);
-
-        // check mapper really created new objects
-        assertThat(customer).isNotSameAs(customerDto);
-        assertThat(customer.getOrders().get(0)).isNotEqualTo(order1);
-        assertThat(entry.getKey()).isNotEqualTo(key);
-        assertThat(entry.getValue()).isNotEqualTo(order1);
-        assertThat(entry.getValue()).isNotEqualTo(customer.getOrders().get(0));
+        // Then
+        assertThat(clone)
+                .isNotSameAs(customer)
+                .usingRecursiveComparison()
+                .isEqualTo(customer);
     }
 }

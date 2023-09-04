@@ -5,31 +5,28 @@
  */
 package org.mapstruct.example;
 
-import org.junit.Test;
+import org.instancio.Instancio;
+import org.instancio.junit.InstancioExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.example.dto.FishTankDto;
 import org.mapstruct.example.dto.FishTankWithNestedDocumentDto;
 import org.mapstruct.example.mapper.FishTankMapper;
 import org.mapstruct.example.mapper.FishTankMapperConstant;
 import org.mapstruct.example.mapper.FishTankMapperExpression;
 import org.mapstruct.example.mapper.FishTankMapperWithDocument;
-import org.mapstruct.example.model.Fish;
 import org.mapstruct.example.model.FishTank;
-import org.mapstruct.example.model.Interior;
-import org.mapstruct.example.model.MaterialType;
-import org.mapstruct.example.model.Ornament;
-import org.mapstruct.example.model.WaterPlant;
-import org.mapstruct.example.model.WaterQuality;
-import org.mapstruct.example.model.WaterQualityReport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Sjaak Derksen
  */
-public class FishTanksMappersTest {
+@ExtendWith(InstancioExtension.class)
+class FishTanksMappersTest {
 
     @Test
-    public void shouldAutomapAndHandleSourceAndTargetPropertyNesting() {
+    void shouldAutomapAndHandleSourceAndTargetPropertyNesting() {
 
         // -- prepare
         FishTank source = createFishTank();
@@ -71,7 +68,7 @@ public class FishTanksMappersTest {
     }
 
     @Test
-    public void shouldAutomapAndHandleSourceAndTargetPropertyNestingReverse() {
+    void shouldAutomapAndHandleSourceAndTargetPropertyNestingReverse() {
 
         // -- prepare
         FishTank source = createFishTank();
@@ -110,7 +107,7 @@ public class FishTanksMappersTest {
     }
 
     @Test
-    public void shouldAutomapAndHandleSourceAndTargetPropertyNestingAndConstant() {
+    void shouldAutomapAndHandleSourceAndTargetPropertyNestingAndConstant() {
 
         // -- prepare
         FishTank source = createFishTank();
@@ -139,7 +136,7 @@ public class FishTanksMappersTest {
     }
 
     @Test
-    public void shouldAutomapAndHandleSourceAndTargetPropertyNestingAndExpresion() {
+    void shouldAutomapAndHandleSourceAndTargetPropertyNestingAndExpresion() {
 
         // -- prepare
         FishTank source = createFishTank();
@@ -164,7 +161,7 @@ public class FishTanksMappersTest {
     }
 
     @Test
-    public void shouldAutomapIntermediateLevelAndMapConstant() {
+    void shouldAutomapIntermediateLevelAndMapConstant() {
 
         // -- prepare
         FishTank source = createFishTank();
@@ -189,36 +186,6 @@ public class FishTanksMappersTest {
     }
 
     private FishTank createFishTank() {
-        FishTank fishTank = new FishTank();
-
-        Fish fish = new Fish();
-        fish.setType("Carp");
-
-        WaterPlant waterplant = new WaterPlant();
-        waterplant.setKind("Water Hyacinth");
-
-        Interior interior = new Interior();
-        interior.setDesigner("MrVeryFamous");
-        Ornament ornament = new Ornament();
-        ornament.setType("castle");
-        interior.setOrnament(ornament);
-
-        WaterQuality quality = new WaterQuality();
-        WaterQualityReport report = new WaterQualityReport();
-        report.setVerdict("PASSED");
-        report.setOrganisationName("ACME");
-        quality.setReport(report);
-
-        MaterialType materialType = new MaterialType();
-        materialType.setType("myMaterialType");
-
-        fishTank.setName("MyLittleFishTank");
-        fishTank.setFish(fish);
-        fishTank.setPlant(waterplant);
-        fishTank.setInterior(interior);
-        fishTank.setMaterial(materialType);
-        fishTank.setQuality(quality);
-
-        return fishTank;
+        return Instancio.create(FishTank.class);
     }
 }

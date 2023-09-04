@@ -5,61 +5,59 @@
  */
 package org.mapstruct.example;
 
-import org.junit.Test;
+import org.instancio.Instancio;
+import org.instancio.junit.InstancioExtension;
+import org.instancio.junit.WithSettings;
+import org.instancio.settings.Keys;
+import org.instancio.settings.Settings;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.example.dto.Customer;
 import org.mapstruct.example.dto.CustomerDto;
-import org.mapstruct.example.dto.OrderItem;
-import org.mapstruct.example.dto.OrderItemDto;
 import org.mapstruct.example.mapper.CustomerMapper;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * @author Filip Hrisafov
  */
-public class CustomerMapperTest {
+@ExtendWith(InstancioExtension.class)
+class CustomerMapperTest {
 
-    @Test
-    public void testMapDtoToEntity() {
+    @WithSettings
+    private final Settings settings = Settings.create()
+            .set(Keys.COLLECTION_MIN_SIZE, 0)
+            .set(Keys.COLLECTION_NULLABLE, true);
 
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.id = 10L;
-        customerDto.customerName = "test-name";
-        OrderItemDto order1 = new OrderItemDto();
-        order1.name = "Table";
-        order1.quantity = 2L;
-        customerDto.orders = new ArrayList<>(Collections.singleton(order1));
+    @RepeatedTest(10)
+    void dtoToEntity() {
+        // Given
+        CustomerDto dto = Instancio.create(CustomerDto.class);
 
-        Customer customer = CustomerMapper.MAPPER.toCustomer(customerDto);
+        // When
+        Customer entity = CustomerMapper.MAPPER.toCustomer(dto);
 
-        assertThat(customer.getId()).isEqualTo(10);
-        assertThat(customer.getName()).isEqualTo("test-name");
-        assertThat(customer.getOrderItems())
-                .extracting("name", "quantity")
-                .containsExactly(tuple("Table", 2L));
+        // Then
+        assertEquals(entity, dto);
     }
 
-    @Test
-    public void testEntityDtoToDto() {
+    @RepeatedTest(10)
+    void entityToDto() {
+        // Given
+        Customer entity = Instancio.create(Customer.class);
 
-        Customer customer = new Customer();
-        customer.setId(10L);
-        customer.setName("test-name");
-        OrderItem order1 = new OrderItem();
-        order1.setName("Table");
-        order1.setQuantity(2L);
-        customer.setOrderItems(Collections.singleton(order1));
+        // When
+        CustomerDto dto = CustomerMapper.MAPPER.fromCustomer(entity);
 
-        CustomerDto customerDto = CustomerMapper.MAPPER.fromCustomer(customer);
+        // Then
+        assertEquals(entity, dto);
+    }
 
-        assertThat(customerDto.id).isEqualTo(10);
-        assertThat(customerDto.customerName).isEqualTo("test-name");
-        assertThat(customerDto.orders)
-                .extracting("name", "quantity")
-                .containsExactly(tuple("Table", 2L));
+    private static void assertEquals(Customer entity, CustomerDto dto) {
+        assertThat(dto.getId()).isEqualTo(entity.getId());
+        assertThat(dto.getCustomerName()).isEqualTo(entity.getName());
+        assertThat(dto.getOrders())
+                .usingRecursiveComparison()
+                .isEqualTo(entity.getOrderItems());
     }
 }
